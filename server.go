@@ -8,11 +8,52 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gliderlabs/sigil/builtin"
 	"github.com/winebarrel/yktr/esa"
 )
 
 //go:embed templates
 var content embed.FS
+
+var sigilFuncMap = template.FuncMap{
+	"append":       builtin.Append,
+	"base64decode": builtin.Base64Decode,
+	"base64encode": builtin.Base64Encode,
+	"capitalize":   builtin.Capitalize,
+	"default":      builtin.Default,
+	"dir":          builtin.Dir,
+	"dirs":         builtin.Dirs,
+	"drop":         builtin.Drop,
+	"exists":       builtin.Exists,
+	"file":         builtin.File,
+	"files":        builtin.Files,
+	"httpget":      builtin.HttpGet,
+	"include":      builtin.Include,
+	"indent":       builtin.Indent,
+	"jmespath":     builtin.JmesPath,
+	"join":         builtin.Join,
+	"joinkv":       builtin.JoinKv,
+	"json":         builtin.Json,
+	"lower":        builtin.Lower,
+	"match":        builtin.Match,
+	"pointer":      builtin.Pointer,
+	"render":       builtin.Render,
+	"replace":      builtin.Replace,
+	"seq":          builtin.Seq,
+	"shell":        builtin.Shell,
+	"split":        builtin.Split,
+	"splitkv":      builtin.SplitKv,
+	"stdin":        builtin.Stdin,
+	"substring":    builtin.Substring,
+	"text":         builtin.Text,
+	"tojson":       builtin.ToJson,
+	"toyaml":       builtin.ToYaml,
+	"trim":         builtin.Trim,
+	"uniq":         builtin.Uniq,
+	"upper":        builtin.Upper,
+	"var":          builtin.Var,
+	"yaml":         builtin.Yaml,
+}
 
 type Server struct {
 	*Config
@@ -21,7 +62,8 @@ type Server struct {
 
 func NewServer(cfg *Config) (*Server, error) {
 	r := gin.New()
-	t, err := template.ParseFS(content, "templates/index.html")
+	t := template.New("").Funcs(sigilFuncMap)
+	t, err := t.ParseFS(content, "templates/index.html")
 
 	if err != nil {
 		return nil, err

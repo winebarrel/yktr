@@ -35,12 +35,19 @@
         <div class="posts-title">
           <div class="post-header__upper">
             <span class="post-header__id">#{{ $p.Number }}</span>
-            {{- if .Category -}}
+            {{- if $p.Category -}}
             <ul class="category-path">
+              {{- $dirs := split "/" $p.Category }}
+              {{- range $i, $d := $dirs -}}
               <li class="category-path__item">
-                <a class="category-path__link" href="/{{ $p.Category }}">{{
-                  $p.Category }}</a>
+                {{- if eq $i 0 -}}
+                <a class="category-path__link" href="/">/</a>
+                <a class="category-path__link" href="/{{ $d }}">{{ $d }}</a>
+                {{- else -}}
+                <a class="category-path__link" href="/{{ slice $dirs 0 $i | join "/" }}/{{ $d }}">{{ $d }}</a>
+                {{- end -}}
               </li>
+              {{- end -}}
             </ul>
             {{- end -}}
           </div>

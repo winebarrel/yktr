@@ -18,12 +18,20 @@
     <nav class="pagination">
       {{- if gt .prev_page 0 -}}
       <span class="prev">
+        {{- if ne .q "" -}}
+        <a rel="prev" href="?q={{ .q }}&page={{ .prev_page }}">‹ Prev</a>
+        {{- else -}}
         <a rel="prev" href="?page={{ .prev_page }}">‹ Prev</a>
+        {{- end -}}
       </span>
       {{- end -}}
       {{- if gt .next_page 0 -}}
       <span class="next">
-        <a rel="next" href="?page={{ .next_page }}">Next ›</a>
+        {{- if ne .q "" -}}
+        <a rel="nex" href="?q={{ .q }}&page={{ .next_page }}">Next ›</a>
+        {{- else -}}
+        <a rel="nex" href="?page={{ .next_page }}">Next ›</a>
+        {{- end -}}
       </span>
       {{- end -}}
     </nav><!-- pagination -->
@@ -44,7 +52,7 @@
                 <a class="category-path__link" href="/">/</a>
                 <a class="category-path__link" href="/{{ $d }}">{{ $d }}</a>
                 {{- else -}}
-                <a class="category-path__link" href="/{{ slice $dirs 0 $i | join "/" }}/{{ $d }}">{{ $d }}</a>
+                <a class="category-path__link" href="/{{ slice $dirs 0 $i | join " /" }}/{{ $d }}">{{ $d }}</a>
                 {{- end -}}
               </li>
               {{- end -}}
@@ -70,8 +78,7 @@
             </div>
             <div class="post-author__info">
               <div class="post-author__user">
-                Created by <a href="https://{{ $.domain }}/members/{{ $p.CreatedBy.Name | urlquery }}">{{
-                  $p.CreatedBy.Name }}</a>
+                Created by <a href="?q=@{{ $p.CreatedBy.ScreenName }}">{{ $p.CreatedBy.ScreenName }}</a>
               </div>
               <div class="post-author__date">
                 {{ $p.CreatedAt }}
@@ -84,8 +91,7 @@
             </div>
             <div class="post-author__info">
               <div class="post-author__user">
-                Updated by <a href="https://{{ $.domain }}/members/{{ $p.UpdatedBy.Name | urlquery }}">{{
-                  $p.UpdatedBy.Name }}</a>
+                Updated by <a href="?q=@{{ $p.UpdatedBy.ScreenName }}">{{ $p.UpdatedBy.ScreenName }}</a>
               </div>
               <div class="post-author__updated-wrapper">
                 <div class="post-author__date">
@@ -110,12 +116,20 @@
     <nav class="pagination">
       {{- if gt .prev_page 0 -}}
       <span class="prev">
+        {{- if ne .q "" -}}
+        <a rel="prev" href="?q={{ .q }}&page={{ .prev_page }}">‹ Prev</a>
+        {{- else -}}
         <a rel="prev" href="?page={{ .prev_page }}">‹ Prev</a>
+        {{- end -}}
       </span>
       {{- end -}}
       {{- if gt .next_page 0 -}}
       <span class="next">
-        <a rel="next" href="?page={{ .next_page }}">Next ›</a>
+        {{- if ne .q "" -}}
+        <a rel="nex" href="?q={{ .q }}&page={{ .next_page }}">Next ›</a>
+        {{- else -}}
+        <a rel="nex" href="?page={{ .next_page }}">Next ›</a>
+        {{- end -}}
       </span>
       {{- end -}}
     </nav><!-- pagination -->

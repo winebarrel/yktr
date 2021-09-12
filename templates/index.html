@@ -52,7 +52,7 @@
                 <a class="category-path__link" href="/">/</a>
                 <a class="category-path__link" href="/{{ $d }}">{{ $d }}</a>
                 {{- else -}}
-                <a class="category-path__link" href="/{{ slice $dirs 0 $i | join "/" }}/{{ $d }}">{{ $d }}</a>
+                <a class="category-path__link" href="/{{ slice $dirs 0 $i | join " /" }}/{{ $d }}">{{ $d }}</a>
                 {{- end -}}
               </li>
               {{- end -}}
@@ -63,6 +63,11 @@
             <a class="post-title__link" href="https://{{ $.domain }}/posts/{{ $p.Number }}">
               <span class="post-title__name">{{ $p.Name }}</span>
             </a>
+            {{- range $_, $t := $p.Tags -}}
+            <a class="post-title__tag" href="?q=%23{{ $t  }}">
+              #{{ $t }}
+            </a>
+            {{- end -}}
             <a class="post-title__action" href="https://{{ $.domain }}/posts/{{ $p.Number }}/edit">
               <i class="post-title__action-icon fa fa-pencil"></i>
             </a>

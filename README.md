@@ -18,3 +18,7 @@ token = "<YOUR ACCESS TOKEN>" # アクセストークン cf. https://docs.esa.io
 ```sh
 yktr # -c any-conf.toml
 ```
+
+## 動画
+
+https://user-images.githubusercontent.com/117768/132972711-29659163-9ef3-4143-8b92-bc593c0f2096.mov

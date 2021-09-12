@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    {{- if ne .q "" -}}
+    {{ .q }} - {{ .domain }}
+    {{- else -}}
+    {{ .domain }}
+    {{- end -}}
+  </title>
+  <link href="{{ .stylesheet }}" rel="stylesheet">
+</head>
+
+<body>
+  <main class="container">
+    <nav class="pagination">
+      {{- if gt .prev_page 0 -}}
+      <span class="prev">
+        <a rel="prev" href="?page={{ .prev_page }}">‹ Prev</a>
+      </span>
+      {{- end -}}
+      {{- if gt .next_page 0 -}}
+      <span class="next">
+        <a rel="next" href="?page={{ .next_page }}">Next ›</a>
+      </span>
+      {{- end -}}
+    </nav><!-- pagination -->
+
+    {{- range $_, $p := .posts -}}
+    <div class="post-header">
+
+      <div class="post-header__left">
+        <div class="posts-title">
+          <div class="post-header__upper">
+            <span class="post-header__id">#{{ $p.Number }}</span>
+            {{- if .Category -}}
+            <ul class="category-path">
+              <li class="category-path__item">
+                <a class="category-path__link" href="/{{ $p.Category }}">{{
+                  $p.Category }}</a>
+              </li>
+            </ul>
+            {{- end -}}
+          </div>
+          <h1 class="post-title">
+            <a class="post-title__link" href="https://{{ $.domain }}/posts/{{ $p.Number }}">
+              <span class="post-title__name">{{ $p.Name }}</span>
+            </a>
+            <a class="post-title__action" href="https://{{ $.domain }}/posts/{{ $p.Number }}/edit">
+              <i class="post-title__action-icon fa fa-pencil"></i>
+            </a>
+          </h1>
+        </div>
+      </div><!-- post-header__left -->
+
+      <div class="post-header__right">
+        <ul class="post-author">
+          <li class="post-author__item">
+            <div class="post-author__thumbnail">
+              <img class="thumbnail__image" src="{{ $p.CreatedBy.Icon }}">
+            </div>
+            <div class="post-author__info">
+              <div class="post-author__user">
+                Created by <a href="https://{{ $.domain }}/members/{{ $p.CreatedBy.Name | urlquery }}">{{
+                  $p.CreatedBy.Name }}</a>
+              </div>
+              <div class="post-author__date">
+                {{ $p.CreatedAt }}
+              </div>
+            </div>
+          </li>
+          <li class="post-author__item">
+            <div class="post-author__thumbnail">
+              <img class="thumbnail__image" src="{{ $p.UpdatedBy.Icon }}">
+            </div>
+            <div class="post-author__info">
+              <div class="post-author__user">
+                Updated by <a href="https://{{ $.domain }}/members/{{ $p.UpdatedBy.Name | urlquery }}">{{
+                  $p.UpdatedBy.Name }}</a>
+              </div>
+              <div class="post-author__updated-wrapper">
+                <div class="post-author__date">
+                  {{ $p.UpdatedBy }}
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div><!-- post-header__right -->
+    </div>
+
+    <div class="layout-post__content" style="border-bottom:3px solid #0a9b94;">
+      <div class="layout-post__main">
+        <div class="post-body markdown">
+          {{ $p.BodyHtml }}
+        </div>
+      </div>
+    </div><!-- layout-post__content -->
+    {{- end -}}
+
+    <nav class="pagination">
+      {{- if gt .prev_page 0 -}}
+      <span class="prev">
+        <a rel="prev" href="?page={{ .prev_page }}">‹ Prev</a>
+      </span>
+      {{- end -}}
+      {{- if gt .next_page 0 -}}
+      <span class="next">
+        <a rel="next" href="?page={{ .next_page }}">Next ›</a>
+      </span>
+      {{- end -}}
+    </nav><!-- pagination -->
+  </main>
+</body>
+
+</html>

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -53,6 +54,7 @@ var sigilFuncMap = template.FuncMap{
 	"upper":        builtin.Upper,
 	"var":          builtin.Var,
 	"yaml":         builtin.Yaml,
+	"emoji":        emoji,
 }
 
 type Server struct {
@@ -121,4 +123,10 @@ func handleReq(c *gin.Context, cfg *Config, esaCli *esa.Client) {
 		"prev_page":  posts.PrevPage,
 		"next_page":  posts.NextPage,
 	})
+}
+
+func emoji(str string) (interface{}, error) {
+	r := regexp.MustCompile(":([[:alnum:]]+):")
+	str = r.ReplaceAllString(str, `<img class="emoji" title=":$1:" alt=":$1:" src="https://assets.esa.io/images/emoji/$1.png">`)
+	return template.HTML(str), nil
 }

@@ -3,14 +3,12 @@ module github.com/winebarrel/yktr
 go 1.17
 
 require (
-	github.com/bxcodec/httpcache v1.0.0-beta.3
 	github.com/gin-gonic/gin v1.7.4
 	github.com/gliderlabs/sigil v0.6.0
 	github.com/pelletier/go-toml v1.9.4
 )
 
 require (
-	github.com/bxcodec/gotcha v1.0.0-beta.2 // indirect
 	github.com/dustin/go-jsonpointer v0.0.0-20160814072949-ba0abeacc3dc // indirect
 	github.com/dustin/gojson v0.0.0-20160307161227-2e71ec9dd5ad // indirect
 	github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568 // indirect

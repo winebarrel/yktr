@@ -8,9 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"time"
 
-	"github.com/bxcodec/httpcache"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,16 +16,17 @@ const (
 	Endpoint       = "api.esa.io"
 	Stylesheet     = "https://assets.esa.io/assets/application-860deb72f57963abb3cecce7b8070ab4e106b68cee8e3205d457110507b494f4.css"
 	DefaultPerPage = "5"
-	CacheTTL       = 300
 )
 
 type Client struct {
 	*Config
+	HTTP *http.Client
 }
 
 func NewClient(cfg *Config) *Client {
 	cli := &Client{
 		Config: cfg,
+		HTTP:   &http.Client{},
 	}
 
 	return cli
@@ -114,15 +113,7 @@ func (cli *Client) request(c *gin.Context, req *http.Request) ([]byte, error) {
 	}
 
 	req.URL.RawQuery = query.Encode()
-
-	client := &http.Client{}
-	_, err = httpcache.NewWithInmemoryCache(client, false, CacheTTL*time.Second)
-
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := client.Do(req)
+	res, err := cli.HTTP.Do(req)
 
 	if err != nil {
 		return nil, err

@@ -1,2 +1,4 @@
 /yktr
 /yktr.toml
+*.gz
+*.gz.sha1sum

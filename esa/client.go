@@ -121,7 +121,6 @@ func (cli *Client) request(c *gin.Context, req *http.Request) ([]byte, error) {
 		return nil, err
 	}
 
-	fmt.Println(req)
 	res, err := client.Do(req)
 
 	if err != nil {

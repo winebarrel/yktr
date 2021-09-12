@@ -52,7 +52,7 @@
                 <a class="category-path__link" href="/">/</a>
                 <a class="category-path__link" href="/{{ $d }}">{{ $d }}</a>
                 {{- else -}}
-                <a class="category-path__link" href="/{{ slice $dirs 0 $i | join " /" }}/{{ $d }}">{{ $d }}</a>
+                <a class="category-path__link" href="/{{ slice $dirs 0 $i | join "/" }}/{{ $d }}">{{ $d }}</a>
                 {{- end -}}
               </li>
               {{- end -}}

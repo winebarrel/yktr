@@ -17,7 +17,7 @@
   <main class="container">
     <div class="right">
       {{- if ne .category "" -}}
-      [ <a href="https://{{ .domain }}/posts/new?category_path={{ .category }}">Post</a> ]
+      [ <a href="https://{{ .domain }}/posts/new?category_path={{ .category }}/">Post</a> ]
       {{- else -}}
       [ <a href="https://{{ .domain }}/posts/new">Post</a> ]
       {{- end -}}

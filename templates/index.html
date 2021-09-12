@@ -66,7 +66,10 @@
             </ul>
             {{- end -}}
           </div>
-          <h1 class="post-title">
+          <h1 class="post-title {{ if $p.Wip }} is-wip {{ end }}">
+            {{- if $p.Wip -}}
+            <span class="count-num post-title__icon-wip icon-wip tip">WIP</span>
+            {{- end -}}
             <a class="post-title__link" href="https://{{ $.domain }}/posts/{{ $p.Number }}">
               <span class="post-title__name">{{ emoji $p.Name }}</span>
             </a>

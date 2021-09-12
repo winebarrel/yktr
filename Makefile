@@ -11,7 +11,7 @@ build:
 
 .PHONY: package
 package: clean build
-	gzip jsrt -c > yktr_$(VERSION)_$(GOOS)_$(GOARCH).gz
+	gzip yktr -c > yktr_$(VERSION)_$(GOOS)_$(GOARCH).gz
 	sha1sum yktr_$(VERSION)_$(GOOS)_$(GOARCH).gz > yktr_$(VERSION)_$(GOOS)_$(GOARCH).gz.sha1sum
 
 .PHONY: clean

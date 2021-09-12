@@ -95,7 +95,6 @@ func (svr *Server) Run() error {
 
 func handleReq(c *gin.Context, cfg *Config, esaCli *esa.Client) {
 	q := c.Query("q")
-
 	category := strings.TrimLeft(c.Request.URL.Path, "/")
 
 	if category != "" {
@@ -106,6 +105,11 @@ func handleReq(c *gin.Context, cfg *Config, esaCli *esa.Client) {
 
 	if err != nil {
 		c.String(http.StatusInternalServerError, fmt.Sprintf("error: %s", err))
+		return
+	}
+
+	if len(posts.Posts) == 0 {
+		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
 

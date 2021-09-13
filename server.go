@@ -116,7 +116,7 @@ func handleReq(c *gin.Context, cfg *Config, esaCli *esa.Client) {
 	}
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"q":          q,
+		"q":          c.Query("q"),
 		"category":   category,
 		"domain":     fmt.Sprintf("%s.esa.io", cfg.Team),
 		"stylesheet": esa.Stylesheet,

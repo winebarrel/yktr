@@ -65,6 +65,11 @@ type Server struct {
 	engine *gin.Engine
 }
 
+var redirectPaths []string = []string{
+	"posts",
+	"members",
+}
+
 func NewServer(cfg *Config) (*Server, error) {
 	r := gin.Default()
 	store := persistence.NewInMemoryStore(cfg.CacheTTL * time.Second)
@@ -83,10 +88,15 @@ func NewServer(cfg *Config) (*Server, error) {
 		Token: cfg.Token,
 	})
 
-	r.GET("/posts/:number", func(c *gin.Context) {
-		url := fmt.Sprintf("http://%s.esa.io/posts/%s", cfg.Team, c.Param("number"))
-		c.Redirect(http.StatusTemporaryRedirect, url)
-	})
+	for _, path := range redirectPaths {
+		path := path
+		urlPath := fmt.Sprintf("/%s/:id", path)
+
+		r.GET(urlPath, func(c *gin.Context) {
+			url := fmt.Sprintf("http://%s.esa.io/%s/%s", cfg.Team, path, c.Param("id"))
+			c.Redirect(http.StatusTemporaryRedirect, url)
+		})
+	}
 
 	handler := func(c *gin.Context) {
 		if c.Request.Method != http.MethodGet {

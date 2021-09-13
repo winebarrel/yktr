@@ -63,7 +63,7 @@ type Server struct {
 }
 
 func NewServer(cfg *Config) (*Server, error) {
-	r := gin.New()
+	r := gin.Default()
 	t := template.New("").Funcs(sigilFuncMap)
 	t, err := t.ParseFS(content, "templates/index.html")
 

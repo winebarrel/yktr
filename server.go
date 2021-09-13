@@ -84,8 +84,9 @@ func NewServer(cfg *Config) (*Server, error) {
 	}
 
 	esaCli := esa.NewClient(&esa.Config{
-		Team:  cfg.Team,
-		Token: cfg.Token,
+		Team:    cfg.Team,
+		Token:   cfg.Token,
+		PerPage: cfg.PerPage,
 	})
 
 	r.GET("/favicon.ico", func(c *gin.Context) {

@@ -13,9 +13,8 @@ import (
 )
 
 const (
-	Endpoint       = "api.esa.io"
-	Stylesheet     = "https://assets.esa.io/assets/application-860deb72f57963abb3cecce7b8070ab4e106b68cee8e3205d457110507b494f4.css"
-	DefaultPerPage = "5"
+	Endpoint   = "api.esa.io"
+	Stylesheet = "https://assets.esa.io/assets/application-860deb72f57963abb3cecce7b8070ab4e106b68cee8e3205d457110507b494f4.css"
 )
 
 type Client struct {
@@ -106,7 +105,7 @@ func (cli *Client) request(c *gin.Context, req *http.Request) ([]byte, error) {
 
 	page, err := strconv.Atoi(c.Query("page"))
 	query := req.URL.Query()
-	query.Add("per_page", DefaultPerPage)
+	query.Add("per_page", strconv.Itoa(cli.PerPage))
 
 	if err == nil && page > 0 {
 		query.Add("page", strconv.Itoa(page))

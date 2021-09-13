@@ -11,6 +11,7 @@ type Config struct {
 	Team     string
 	Token    string
 	CacheTTL time.Duration `toml:"cache_ttl" default:"0"`
+	PerPage  int           `toml:"per_page" default:"5"`
 }
 
 func (cfg *Config) Validate() error {

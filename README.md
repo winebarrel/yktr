@@ -8,9 +8,11 @@
 
 ```toml
 addr = "127.0.0.1" # listenするアドレス（デフォルト `127.0.0.1`）
-port = 8080 # listenするポート（デフォルト `8080`）
+port = 8080   # listenするポート（デフォルト `8080`）
 team = "docs" # esaのチーム名
 token = "<YOUR ACCESS TOKEN>" # アクセストークン cf. https://docs.esa.io/posts/102#%E8%AA%8D%E8%A8%BC%E3%81%A8%E8%AA%8D%E5%8F%AF
+cache_ttl = 0 # キャッシュ秒数
+per_page = 5  # ページあたりの投稿数
 ```
 
 ## 使い方

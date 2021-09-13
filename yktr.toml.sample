@@ -3,3 +3,4 @@ port = 8080
 team = "docs"
 # https://docs.esa.io/posts/102#%E8%AA%8D%E8%A8%BC%E3%81%A8%E8%AA%8D%E5%8F%AF
 token = "<YOUR ACCESS TOKEN>"
+cache_ttl = 0

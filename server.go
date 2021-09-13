@@ -7,7 +7,10 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+	"time"
 
+	"github.com/gin-contrib/cache"
+	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-gonic/gin"
 	"github.com/gliderlabs/sigil/builtin"
 	"github.com/winebarrel/yktr/esa"
@@ -64,6 +67,8 @@ type Server struct {
 
 func NewServer(cfg *Config) (*Server, error) {
 	r := gin.Default()
+	store := persistence.NewInMemoryStore(cfg.CacheTTL * time.Second)
+
 	t := template.New("").Funcs(sigilFuncMap)
 	t, err := t.ParseFS(content, "templates/index.html")
 
@@ -78,14 +83,20 @@ func NewServer(cfg *Config) (*Server, error) {
 		Token: cfg.Token,
 	})
 
-	r.NoRoute(func(c *gin.Context) {
+	handler := func(c *gin.Context) {
 		if c.Request.Method != http.MethodGet {
 			c.AbortWithStatus(http.StatusNotFound)
 			return
 		}
 
 		handleReq(c, cfg, esaCli)
-	})
+	}
+
+	if cfg.CacheTTL > 0 {
+		handler = cache.CachePage(store, cfg.CacheTTL*time.Second, handler)
+	}
+
+	r.NoRoute(handler)
 
 	return &Server{Config: cfg, engine: r}, nil
 }

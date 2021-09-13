@@ -18,7 +18,10 @@ import (
 )
 
 //go:embed templates
-var content embed.FS
+var tpls embed.FS
+
+//go:embed assets
+var assets embed.FS
 
 var sigilFuncMap = template.FuncMap{
 	"append":       builtin.Append,
@@ -83,6 +86,10 @@ func NewServer(cfg *Config) (*Server, error) {
 	esaCli := esa.NewClient(&esa.Config{
 		Team:  cfg.Team,
 		Token: cfg.Token,
+	})
+
+	r.GET("/favicon.ico", func(c *gin.Context) {
+		c.FileFromFS("assets/favicon.ico", http.FS(assets))
 	})
 
 	for _, path := range redirectPaths {
@@ -154,14 +161,14 @@ func handleReq(c *gin.Context, cfg *Config, esaCli *esa.Client) {
 func letHTMLTemplates(r *gin.Engine) error {
 	t := template.New("").Funcs(sigilFuncMap)
 
-	entries, err := content.ReadDir("templates")
+	entries, err := tpls.ReadDir("templates")
 
 	if err != nil {
 		return err
 	}
 
 	for _, e := range entries {
-		t, err := t.ParseFS(content, path.Join("templates", e.Name()))
+		t, err := t.ParseFS(tpls, path.Join("templates", e.Name()))
 
 		if err != nil {
 			return err

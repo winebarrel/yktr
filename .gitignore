@@ -1,4 +1,5 @@
 /yktr
+/yktr.exe
 /yktr.toml
 *.gz
 *.gz.sha1sum

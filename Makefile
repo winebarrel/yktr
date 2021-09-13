@@ -25,4 +25,4 @@ endif
 
 .PHONY: clean
 clean:
-	rm -f yktr
+	rm -f yktr yktr.exe

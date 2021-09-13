@@ -1,4 +1,4 @@
-VERSION := v0.7.4
+VERSION := v0.8.0
 GOOS    := $(shell go env GOOS)
 GOARCH  := $(shell go env GOARCH)
 

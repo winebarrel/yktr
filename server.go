@@ -83,6 +83,11 @@ func NewServer(cfg *Config) (*Server, error) {
 		Token: cfg.Token,
 	})
 
+	r.GET("/posts/:number", func(c *gin.Context) {
+		url := fmt.Sprintf("http://%s.esa.io/posts/%s", cfg.Team, c.Param("number"))
+		c.Redirect(http.StatusTemporaryRedirect, url)
+	})
+
 	handler := func(c *gin.Context) {
 		if c.Request.Method != http.MethodGet {
 			c.AbortWithStatus(http.StatusNotFound)

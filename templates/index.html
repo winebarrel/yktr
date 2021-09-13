@@ -16,6 +16,9 @@
 <body>
   <main class="container">
     <div class="right">
+      [ <a href="/"> Top </a> ]
+    </div>
+    <div class="right">
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       {{- if ne .category "" -}}
       [ <a href="https://{{ .domain }}/posts/new?category_path=%2F{{ .category | urlquery }}%2F">Post</a> ]

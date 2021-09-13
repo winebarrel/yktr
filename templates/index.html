@@ -16,11 +16,18 @@
 <body>
   <main class="container">
     <div class="right">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       {{- if ne .category "" -}}
       [ <a href="https://{{ .domain }}/posts/new?category_path=%2F{{ .category | urlquery }}%2F">Post</a> ]
       {{- else -}}
       [ <a href="https://{{ .domain }}/posts/new">Post</a> ]
       {{- end -}}
+    </div>
+    <div class="right">
+      <form method="get">
+        <input autocomplete="off" class="form-control search-form__input" id="search_input" name="q"
+          placeholder="foo category:bar/baz comment:foobar" value="{{ .q }}">
+      </form>
     </div>
     <nav class="pagination">
       {{- if gt .prev_page 0 -}}

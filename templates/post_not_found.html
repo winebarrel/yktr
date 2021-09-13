@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    {{- if ne .q "" -}}
+    {{ .q }} - {{ .domain }}
+    {{- else -}}
+    {{ .domain }}
+    {{- end -}}
+  </title>
+  <link href="{{ .stylesheet }}" rel="stylesheet">
+</head>
+
+<body>
+  <main class="container">
+    <div class="layout-search__content-main">
+      <div class="search__no-result">
+        <div class="search__no-result-tori">
+          <i class="icon-tori-atama search__no-result-tori-atama"></i>
+        </div>
+        <p class="search__no-result-message">
+          投稿は見つかりませんでした
+        </p>
+      </div>
+    </div><!-- layout-search__content-main -->
+  </main>
+</body>
+
+</html>

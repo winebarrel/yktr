@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"path"
 	"regexp"
 	"strings"
 	"time"
@@ -73,15 +74,11 @@ var redirectPaths []string = []string{
 func NewServer(cfg *Config) (*Server, error) {
 	r := gin.Default()
 	store := persistence.NewInMemoryStore(cfg.CacheTTL * time.Second)
-
-	t := template.New("").Funcs(sigilFuncMap)
-	t, err := t.ParseFS(content, "templates/index.html")
+	err := letHTMLTemplates(r)
 
 	if err != nil {
 		return nil, err
 	}
-
-	r.SetHTMLTemplate(t)
 
 	esaCli := esa.NewClient(&esa.Config{
 		Team:  cfg.Team,
@@ -136,12 +133,7 @@ func handleReq(c *gin.Context, cfg *Config, esaCli *esa.Client) {
 		return
 	}
 
-	if len(posts.Posts) == 0 {
-		c.AbortWithStatus(http.StatusNotFound)
-		return
-	}
-
-	c.HTML(http.StatusOK, "index.html", gin.H{
+	data := gin.H{
 		"q":          c.Query("q"),
 		"category":   category,
 		"domain":     fmt.Sprintf("%s.esa.io", cfg.Team),
@@ -149,7 +141,36 @@ func handleReq(c *gin.Context, cfg *Config, esaCli *esa.Client) {
 		"posts":      posts.Posts,
 		"prev_page":  posts.PrevPage,
 		"next_page":  posts.NextPage,
-	})
+	}
+
+	if len(posts.Posts) == 0 {
+		c.HTML(http.StatusOK, "post_not_found.html", data)
+		return
+	}
+
+	c.HTML(http.StatusOK, "index.html", data)
+}
+
+func letHTMLTemplates(r *gin.Engine) error {
+	t := template.New("").Funcs(sigilFuncMap)
+
+	entries, err := content.ReadDir("templates")
+
+	if err != nil {
+		return err
+	}
+
+	for _, e := range entries {
+		t, err := t.ParseFS(content, path.Join("templates", e.Name()))
+
+		if err != nil {
+			return err
+		}
+
+		r.SetHTMLTemplate(t)
+	}
+
+	return nil
 }
 
 func emoji(str string) (interface{}, error) {

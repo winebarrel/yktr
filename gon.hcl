@@ -11,5 +11,5 @@ sign {
 }
 
 zip {
-  output_path = "./dist/yktr_0.9.0_Darwin_amd64.zip"
+  output_path = "./dist/yktr_0.9.1_darwin_amd64.zip"
 }

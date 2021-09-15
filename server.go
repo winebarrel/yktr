@@ -76,6 +76,7 @@ var redirectPaths []string = []string{
 
 func NewServer(cfg *Config) (*Server, error) {
 	r := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
 	store := persistence.NewInMemoryStore(cfg.CacheTTL * time.Second)
 	err := letHTMLTemplates(r)
 

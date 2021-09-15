@@ -48,3 +48,7 @@ signs:
     args:
       - gon.hcl
     artifacts: all
+release:
+  ids:
+    - yktr
+    - yktr-macos

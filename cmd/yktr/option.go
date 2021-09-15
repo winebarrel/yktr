@@ -3,7 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
+	"path"
+	"path/filepath"
 )
 
 var version string
@@ -19,12 +22,22 @@ type Options struct {
 func parseArgs() *Options {
 	opts := &Options{}
 
-	flag.StringVar(&opts.Config, "config", DefaultConfig, "config file")
+	flag.StringVar(&opts.Config, "config", "", "config file")
 	ver := flag.Bool("version", false, "print version")
 	flag.Parse()
 
 	if *ver {
 		printVersionAndEixt()
+	}
+
+	if opts.Config == "" {
+		exePath, err := os.Executable()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		opts.Config = path.Join(filepath.Dir(exePath), DefaultConfig)
 	}
 
 	return opts

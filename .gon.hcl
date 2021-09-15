@@ -7,9 +7,9 @@ apple_id {
 }
 
 sign {
-  application_identity = "Developer ID Application: Genki Sugawara"
+  application_identity = "00C6D6A53ED057485749B871ADADA1A6E475D024"
 }
 
 zip {
-  output_path = "./dist/yktr_0.9.1_darwin_amd64.zip"
+  output_path = "./dist/yktr_0.9.2_darwin_amd64.zip"
 }

@@ -12,6 +12,8 @@ builds:
       - goos: linux
         goarch: 386
     main: ./cmd/yktr
+    ldflags:
+      - -X main.build={{.Version}}
   - id: yktr-macos
     env:
       - CGO_ENABLED=0
@@ -42,7 +44,7 @@ signs:
       - yktr-macos
     cmd: gon
     args:
-      - gon.hcl
+      - .gon.hcl
     artifacts: all
 release:
   ids:

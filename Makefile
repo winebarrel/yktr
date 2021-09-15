@@ -2,6 +2,12 @@ VERSION := v0.8.1
 GOOS    := $(shell go env GOOS)
 GOARCH  := $(shell go env GOARCH)
 
+ifeq ($(GOOS),windows)
+BIN := yktr.exe
+else
+BIN := yktr
+endif
+
 .PHONY: all
 all: build
 
@@ -15,12 +21,21 @@ vet:
 
 .PHONY: package
 package: clean vet build
-ifeq ($(GOOS),windows)
-	zip yktr_$(VERSION)_$(GOOS)_$(GOARCH).zip yktr.exe
+ifeq ($(GOOS),darwin)
+	codesign -s $(CODESIGN_ID) -o runtime -v ./yktr
+endif
+	zip yktr_$(VERSION)_$(GOOS)_$(GOARCH).zip $(BIN)
 	sha1sum yktr_$(VERSION)_$(GOOS)_$(GOARCH).zip > yktr_$(VERSION)_$(GOOS)_$(GOARCH).zip.sha1sum
-else
-	gzip yktr -c > yktr_$(VERSION)_$(GOOS)_$(GOARCH).gz
-	sha1sum yktr_$(VERSION)_$(GOOS)_$(GOARCH).gz > yktr_$(VERSION)_$(GOOS)_$(GOARCH).gz.sha1sum
+
+.PHONY: notarize
+notarize:
+ifeq ($(GOOS),darwin)
+	xcrun altool \
+		--notarize-app \
+		--primary-bundle-id com.github.winebarrel.yktr \
+		--username sugawara@winebarrel.jp \
+		--password "$(ALTOOL_PASSWORD)" \
+		--file yktr_$(VERSION)_$(GOOS)_$(GOARCH).zip
 endif
 
 .PHONY: clean

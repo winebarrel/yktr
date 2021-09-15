@@ -5,3 +5,4 @@
 *.gz.sha1sum
 *.zip
 *.zip.sha1sum
+dist/

@@ -1,0 +1,50 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - id: yktr
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+    ignore:
+      - goos: linux
+        goarch: 386
+    main: ./cmd/yktr
+  - id: yktr-macos
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+    ignore:
+      - goarch: 386
+      - goarch: arm64
+    main: ./cmd/yktr
+archives:
+  - id: yktr
+    builds:
+      - yktr
+    format: zip
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - yktr.toml.sample
+  - id: yktr-macos
+    builds:
+      - yktr-macos
+    format: zip
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - yktr.toml.sample
+checksum:
+  disable: true
+changelog:
+  skip: true
+signs:
+  - signature: "${artifact}.zip"
+    ids:
+      - yktr-macos
+    cmd: gon
+    args:
+      - gon.hcl
+    artifacts: all

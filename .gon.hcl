@@ -8,6 +8,7 @@ apple_id {
 
 sign {
   application_identity = "00C6D6A53ED057485749B871ADADA1A6E475D024"
+  entitlements_file    = "entitlements.plist"
 }
 
 zip {

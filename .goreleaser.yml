@@ -26,16 +26,12 @@ archives:
     builds:
       - yktr
     format: zip
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     files:
       - yktr.toml.sample
   - id: yktr-macos
     builds:
       - yktr-macos
     format: zip
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
-    files:
-      - yktr.toml.sample
 checksum:
   disable: true
 changelog:
